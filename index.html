@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adv | Bardelotti & Takeda</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            overflow: hidden; /* Remove rolagem completamente */
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #8B0000; /* Vermelho escuro */
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar:hover {
+            background-color: #A52A2A; /* Vermelho mais claro no hover */
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Tabs */
+        .tab-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .tab-links li {
+            margin-left: 2rem;
+        }
+
+        .tab-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .tab-links a:hover,
+        .tab-links a.active {
+            background-color: #A52A2A; /* Vermelho mais claro */
+            border-radius: 5px;
+            transform: scale(1.05);
+        }
+
+        /* Conteúdo das abas */
+        .tab-content {
+            display: none;
+            height: 100vh;
+            padding: 2rem;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #home {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                            url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80');
+        }
+
+        #sobre {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                            url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80');
+        }
+
+        #contato {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                            url('https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&q=80');
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            max-width: 800px;
+        }
+
+        /* Container genérico para abas */
+        .content-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .intro-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .details p {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.8;
+        }
+
+        /* Estilo específico para Home */
+        .home-container {
+            max-width: 1000px;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .home-container h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .home-container .intro-text {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Botão CTA aprimorado */
+        .cta-button {
+            background-color: #8B0000;
+            color: white;
+            border: none;
+            padding: 0.9rem 2.5rem;
+            font-size: 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 1rem;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #A52A2A;
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .cta-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Contato específico */
+        .contact-container {
+            background: rgba(255, 255, 255, 0.2); /* Transparente */
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            color: #333;
+            text-shadow: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .advocate-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.3); /* Fundo sutil nos perfis */
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .advocate-profile:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 3px solid #8B0000; /* Vermelho nos perfis */
+            object-fit: cover;
+        }
+
+        .advocate-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-text {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Botão WhatsApp aprimorado */
+        .whatsapp-button {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-decoration: none;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .whatsapp-button:hover {
+            background-color: #28e070;
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .whatsapp-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Footer aprimorado */
+        footer {
+            background-color: #8B0000; /* Vermelho escuro */
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        footer:hover {
+            background-color: #A52A2A; /* Vermelho mais claro no hover */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"> Adv. B&T </div>
+        <ul class="tab-links">
+            <li><a href="#home" class="active" onclick="openTab('home')">Home</a></li>
+            <li><a href="#sobre" onclick="openTab('sobre')">Sobre</a></li>
+            <li><a href="#contato" onclick="openTab('contato')">Contato</a></li>
+        </ul>
+    </nav>
+
+    <div id="home" class="tab-content active">
+        <div class="home-container">
+            <h1>Bem-vindo à Bardelotti & Takeda</h1>
+            <p class="intro-text">
+                Excelência jurídica ao seu alcance. Soluções personalizadas para suas necessidades.
+            </p>
+            <div class="details">
+                <p>Estamos localizados em um ponto estratégico para melhor atendê-lo. Clique abaixo para nos encontrar ou entre em contato para saber mais.</p>
+            </div>
+            <button class="cta-button" onclick="window.open('https://www.google.com/maps/place/Bardelotti+%26+Takeda/@-23.5024258,-47.4838655,17z/data=!3m1!4b1!4m6!3m5!1s0x94c58ada66c4165f:0xf1a6f105c0e51c09!8m2!3d-23.5024258!4d-47.4812906!16s%2Fg%2F11b6q840vw?entry=ttu&g_ep=EgoyMDI1MDMyNS4xIKXMDSoASAFQAw%3D%3D','_blank')">Ver Localização</button>
+        </div>
+    </div>
+
+    <div id="sobre" class="tab-content">
+        <h1>Sobre Nós</h1>
+        <div class="content-container">
+            <p class="intro-text">
+                Na Bardelotti & Takeda, nossa missão é oferecer excelência jurídica com comprometimento, dedicação e ética. Com mais de 20 anos de experiência, nossa equipe de advogados é especializada em diversas áreas do direito, sempre pronta para atender às suas necessidades de forma personalizada e eficiente.
+            </p>
+            <div class="details">
+                <p>
+                    Cada um de nossos advogados possui uma vasta experiência e um compromisso inabalável com a justiça, buscando sempre soluções inovadoras e eficazes para os desafios de nossos clientes. Somos uma equipe que entende a importância de cada detalhe e que trabalha lado a lado com você para alcançar os melhores resultados.
+                </p>
+                <p>
+                    Nosso escritório não é apenas um local de trabalho; é um ambiente de confiança e respeito, onde você encontrará não apenas advogados altamente qualificados, mas também parceiros que têm como prioridade o seu bem-estar e sucesso. Em cada consulta, em cada processo, estamos sempre prontos para lutar pelo que é justo.
+                </p>
+            </div>
+            <button class="cta-button" onclick="openTab('contato')">Entre em Contato</button>
+        </div>
+    </div>
+
+    <div id="contato" class="tab-content">
+        <h1>Contato</h1>
+        <div class="contact-container">
+            <div class="advocate-profile">
+                <img src="midia/adv1.jpg"
+                     alt="Foto da Advogada 1" class="profile-pic">
+                <div class="advocate-name">Dra. Iris B. Meneguetti</div>
+                <div class="contact-text">Entre em contato comigo:</div>
+                <a href="https://wa.me/5515996177825?text=Olá,%20gostaria%20de%20marcar%20de%20um%20horario"
+                   target="_blank" class="whatsapp-button">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 20px; height: 20px;">
+                    WhatsApp
+                </a>
+            </div>
+            <div class="advocate-profile">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80"
+                     alt="Foto da Advogada 2" class="profile-pic">
+                <div class="advocate-name">Dra. Cleber Takeda</div>
+                <div class="contact-text">Entre em contato comigo:</div>
+                <a href="https://wa.me/5515996177815?text=Olá,%20gostaria%20de%20marcar%20de%20um%20horario"
+                   target="_blank" class="whatsapp-button">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 20px; height: 20px;">
+                    WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Escritório Advocacia Bardelotti & Takeda. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function openTab(tabName) {
+            const contents = document.getElementsByClassName('tab-content');
+            for (let content of contents) {
+                content.classList.remove('active');
+            }
+
+            const links = document.getElementsByClassName('tab-links')[0].getElementsByTagName('a');
+            for (let link of links) {
+                link.classList.remove('active');
+            }
+
+            document.getElementById(tabName).classList.add('active');
+            document.querySelector(`a[href="#${tabName}"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>
